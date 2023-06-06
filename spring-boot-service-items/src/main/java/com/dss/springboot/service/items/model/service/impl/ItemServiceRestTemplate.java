@@ -26,7 +26,7 @@ public class ItemServiceRestTemplate implements ItemService {
     public List<Item> findAll() {
         List<Product> products = Arrays.asList(
                 Optional.ofNullable(
-                                restTemplate.getForObject("http://service-products/api/v1/products/list", Product[].class))
+                                restTemplate.getForObject("http://service-products/api/v1/list", Product[].class))
                         .orElse(new Product[]{}));
 
         return products.stream().map(p -> new Item(p, 1)).collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class ItemServiceRestTemplate implements ItemService {
     public Item findById(Long id, Integer amount) {
         Map<String, String> params = new HashMap<>();
         params.put("id", id.toString());
-        Product product = restTemplate.getForObject("http://service-products/api/v1/products/{id}", Product.class, params);
+        Product product = restTemplate.getForObject("http://service-products/api/v1/{id}", Product.class, params);
         return new Item(product, amount);
     }
 }

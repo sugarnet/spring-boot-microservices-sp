@@ -27,22 +27,22 @@ public class ProductController {
         this.environment = environment;
     }
 
-    @GetMapping("/products/list")
+    @GetMapping("/list")
     public List<Product> list() {
         return productService.findAll().stream()
                 .map(p -> {
-                    //p.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
-                    p.setPort(port);
+                    p.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
+                    //p.setPort(port);
                     return p;
                 })
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public Product getById(@PathVariable Long id) {
         Product product = productService.findById(id);
-        //product.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
-        product.setPort(port);
+        product.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
+        //product.setPort(port);
         return product;
     }
 }
