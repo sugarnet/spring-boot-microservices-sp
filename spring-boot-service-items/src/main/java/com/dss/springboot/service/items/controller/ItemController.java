@@ -38,7 +38,7 @@ public class ItemController {
     @GetMapping("/{id}/amount/{amount}")
     public Item getById(@PathVariable Long id, @PathVariable Integer amount) {
         return circuitBreakerFactory.create("items").run(() -> itemService.findById(id, amount), e -> {
-            LOGGER.error("Error Communication", e);
+            LOGGER.error("Error Communication: {}", e.getMessage());
             return alternativeMethod(id, amount);
         });
     }

@@ -44,11 +44,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public Product getById(@PathVariable Long id) throws InterruptedException {
 
-        if (id.equals(10l)) {
+        if (id.equals(10L)) {
             throw new IllegalStateException("Product Not Found!");
         }
 
-        if (id.equals(7l)) {
+        if (id.equals(7L)) {
             TimeUnit.SECONDS.sleep(5);
         }
 
