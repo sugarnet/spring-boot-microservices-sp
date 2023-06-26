@@ -3,6 +3,8 @@ package com.dss.springboot.service.items.controller;
 import com.dss.springboot.service.items.model.domain.Item;
 import com.dss.springboot.service.items.model.domain.Product;
 import com.dss.springboot.service.items.model.service.ItemService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,13 +40,32 @@ public class ItemController {
 
     @GetMapping("/{id}/amount/{amount}")
     public Item getById(@PathVariable Long id, @PathVariable Integer amount) {
-        return circuitBreakerFactory.create("items").run(() -> itemService.findById(id, amount), e -> {
-            LOGGER.error("Error Communication: {}", e.getMessage());
-            return alternativeMethod(id, amount);
-        });
+        return circuitBreakerFactory.create("items").run(() -> itemService.findById(id, amount), e -> alternativeMethod(id, amount, e));
     }
 
-    public Item alternativeMethod(@PathVariable Long id, @PathVariable Integer amount) {
+    @CircuitBreaker(name = "items", fallbackMethod = "alternativeMethod")
+    @GetMapping("/other/{id}/amount/{amount}")
+    public Item getByIdOther(@PathVariable Long id, @PathVariable Integer amount) {
+        return itemService.findById(id, amount);
+    }
+
+    @CircuitBreaker(name = "items", fallbackMethod = "anotherAlternativeMethod")
+    @TimeLimiter(name = "items")
+    @GetMapping("/another/{id}/amount/{amount}")
+    public CompletableFuture<Item> getByIdAnother(@PathVariable Long id, @PathVariable Integer amount) {
+        return CompletableFuture.supplyAsync(() -> itemService.findById(id, amount));
+    }
+
+    public Item alternativeMethod(@PathVariable Long id, @PathVariable Integer amount, Throwable e) {
+        return getAlternativeItem(id, amount, e);
+    }
+
+    public CompletableFuture<Item> anotherAlternativeMethod(@PathVariable Long id, @PathVariable Integer amount, Throwable e) {
+        return CompletableFuture.supplyAsync(() -> getAlternativeItem(id, amount, e));
+    }
+
+    private static Item getAlternativeItem(Long id, Integer amount, Throwable e) {
+        LOGGER.error("Error Communication: {}", e.getMessage());
         Item item = new Item();
         Product product = new Product();
 
