@@ -56,6 +56,11 @@ public class ItemController {
         return CompletableFuture.supplyAsync(() -> itemService.findById(id, amount));
     }
 
+    @GetMapping("/alternative/{id}/amount/{amount}")
+    public Item getByIdAlternative(@PathVariable Long id, @PathVariable Integer amount) {
+        return getAlternativeItem(id, amount, new Throwable("Using alternative method from the other side..."));
+    }
+
     public Item alternativeMethod(@PathVariable Long id, @PathVariable Integer amount, Throwable e) {
         return getAlternativeItem(id, amount, e);
     }
