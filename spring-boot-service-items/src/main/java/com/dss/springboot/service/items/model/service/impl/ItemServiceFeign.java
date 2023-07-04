@@ -2,6 +2,7 @@ package com.dss.springboot.service.items.model.service.impl;
 
 import com.dss.springboot.service.items.client.ProductClientRest;
 import com.dss.springboot.service.items.model.domain.Item;
+import com.dss.springboot.service.items.model.domain.Product;
 import com.dss.springboot.service.items.model.service.ItemService;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,20 @@ public class ItemServiceFeign implements ItemService {
     @Override
     public Item findById(Long id, Integer amount) {
         return new Item(productClientRest.getById(id), amount);
+    }
+
+    @Override
+    public Product save(Product product) {
+        return productClientRest.save(product);
+    }
+
+    @Override
+    public Product update(Product product, Long id) {
+        return productClientRest.update(product, id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        productClientRest.delete(id);
     }
 }
