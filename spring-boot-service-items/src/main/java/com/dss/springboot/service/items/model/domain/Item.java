@@ -1,5 +1,7 @@
 package com.dss.springboot.service.items.model.domain;
 
+import com.dss.springboot.service.commons.model.entity.Product;
+
 public class Item {
     private Product product;
     private Integer amount;

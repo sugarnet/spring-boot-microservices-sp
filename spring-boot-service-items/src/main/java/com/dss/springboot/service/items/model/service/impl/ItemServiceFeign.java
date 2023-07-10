@@ -1,8 +1,8 @@
 package com.dss.springboot.service.items.model.service.impl;
 
+import com.dss.springboot.service.commons.model.entity.Product;
 import com.dss.springboot.service.items.client.ProductClientRest;
 import com.dss.springboot.service.items.model.domain.Item;
-import com.dss.springboot.service.items.model.domain.Product;
 import com.dss.springboot.service.items.model.service.ItemService;
 import org.springframework.stereotype.Service;
 

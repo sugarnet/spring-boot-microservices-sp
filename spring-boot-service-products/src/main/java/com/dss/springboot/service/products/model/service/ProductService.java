@@ -1,6 +1,6 @@
 package com.dss.springboot.service.products.model.service;
 
-import com.dss.springboot.service.products.model.entity.Product;
+import com.dss.springboot.service.commons.model.entity.Product;
 
 import java.util.List;
 

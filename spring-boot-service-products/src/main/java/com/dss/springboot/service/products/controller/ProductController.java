@@ -1,9 +1,7 @@
 package com.dss.springboot.service.products.controller;
 
-import com.dss.springboot.service.products.model.entity.Product;
+import com.dss.springboot.service.commons.model.entity.Product;
 import com.dss.springboot.service.products.model.service.ProductService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
