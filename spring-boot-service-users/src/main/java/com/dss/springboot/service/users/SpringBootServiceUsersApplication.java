@@ -1,4 +1,4 @@
-package om.dss.springboot.service.users;
+package com.dss.springboot.service.users;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -44,3 +44,9 @@ spring:
             - AddResponseHeader=token-response, 654321
             - SetResponseHeader=Content-Type, application/json
             - AddRequestParameter=name, diego
+        - id: service-users
+          uri: lb://service-users
+          predicates:
+            - Path=/gateway/users/**
+          filters:
+            - StripPrefix=2

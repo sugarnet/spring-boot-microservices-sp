@@ -1,4 +1,4 @@
-package om.dss.springboot.service.users;
+package com.dss.springboot.service.users;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
